@@ -1,0 +1,12 @@
+{
+  "name": "FD6FTracker",
+  "displayName": "FD6F Tracker",
+  "expo": {
+    "name": "FD6FTracker",
+    "slug": "expo-template-bare",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
