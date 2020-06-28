@@ -6,7 +6,7 @@ import { NativeModules, NativeEventEmitter } from "react-native";
 const BleManagerModule = NativeModules.BleManager;
 const bleManagerEmitter = new NativeEventEmitter(BleManagerModule);
 
-const SCAN_SECONDS = 30;
+const SCAN_SECONDS = 60;
 BleManager.start().then(() => console.log('BleManager started'));
 
 const useBLE = () => {
@@ -43,10 +43,15 @@ const useBLE = () => {
       "BleManagerDiscoverPeripheral",
       onDiscoverPeripheral
     );
+    bleManagerEmitter.addListener("BleManagerStopScan", () => {
+      setIsScanning(false);
+    });
   }, []);
 
   const startScan = () => {
-    return BleManager.scan([], SCAN_SECONDS, false, {})
+    return BleManager
+      .scan([], SCAN_SECONDS, false, {})
+      .then(() => setIsScanning(true));
   }
 
   const stopScan = () => {
