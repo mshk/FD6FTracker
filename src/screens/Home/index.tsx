@@ -10,8 +10,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { BLEContext } from '../../contexts/BLE';
 import Pie from 'react-native-pie';
 
-const UUID_FDF6 = '0000FD6F-0000-1000-8000-00805F9B34FB';
-//const UUID_FDF6 = 'B88612E9-B3C1-45EE-AAF5-5E145E2D9831';
+
 
 export const HomeScreen = () => {
   const {
@@ -25,9 +24,7 @@ export const HomeScreen = () => {
     startScan();
   }, []);
 
-  const fd6fDevices =
-    devices
-      .filter(d => d?.advertising?.serviceUUIDs?.includes(UUID_FDF6))
+  const fd6fDevices = devices.filter(d => d?.isFDF6);
   const percentage =
     fd6fDevices.length
       ? Math.floor((fd6fDevices.length / devices.length) * 100)
@@ -65,7 +62,7 @@ export const HomeScreen = () => {
           <Text
             style={styles.gaugeTextTotal}
           >
-            合計{devices.length}台
+            {fd6fDevices.length} / {devices.length}
           </Text>
           {
             isScanning
