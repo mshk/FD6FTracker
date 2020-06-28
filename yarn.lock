@@ -6124,6 +6124,11 @@ react-native-ble-manager@^7.3.0:
   resolved "https://registry.yarnpkg.com/react-native-ble-manager/-/react-native-ble-manager-7.3.0.tgz#7a223e3cc1da6f84b3a552cd9a2ddce31eccd592"
   integrity sha512-Zuu+9E628cFj1Xd3s1V7qD1mwROrmIxGhrLCdg3Q1Ii1gCAYD9/b5OoVoopiRV2Be0aRYW3CiA0SmeFHQldQ3Q==
 
+react-native-ble-plx@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-ble-plx/-/react-native-ble-plx-2.0.0.tgz#e4ef38844922efeaa04836d33d548cfa7838604a"
+  integrity sha512-e6ProO4b24bJwzcJADgbioLcCBZ4fE4pqKT0el1v6KR7tFZOLSDO8hYLLz9l8RX8/OBoIX+8T4c02aURkAuMcA==
+
 react-native-gesture-handler@^1.6.1:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-1.6.1.tgz#678e2dce250ed66e93af409759be22cd6375dd17"
