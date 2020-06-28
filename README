@@ -1,0 +1,9 @@
+# FD6FTracker
+
+Contact Tracing Bluetooth Specification (Apple/Google)
+https://blog.google/documents/58/Contact_Tracing_-_Bluetooth_Specification_v1.1_RYGZbKW.pdf
+
+# Getting Started
+
+- yarn
+- yarn ios OR android
