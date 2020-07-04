@@ -7,7 +7,8 @@ import {
   ActivityIndicator
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { BLEContext } from '../../contexts/BLEPlx';
+//import { BLEContext } from '../../contexts/BLEPlx';
+import { BLEContext } from '../../contexts/BLE';
 import Pie from 'react-native-pie';
 
 
@@ -40,7 +41,7 @@ export const HomeScreen = () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={{
-        width: 420,
+        width: 320,
         alignItems: 'center',
         paddingTop: 100,
         paddingBottom: 100

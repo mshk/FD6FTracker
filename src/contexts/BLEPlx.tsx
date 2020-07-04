@@ -42,7 +42,7 @@ const useBLE = () => {
         const uuids = device?.serviceUUIDs?.map(uuid => uuid.toUpperCase());
         const isFDF6 = (uuids && uuids.includes(UUID_FDF6)) ? true : false;
         if (isFDF6) {
-          console.log('# isFDF6', uuids, device?.name);
+          console.log('# isFDF6', uuids, device?.id);
         }
         
         updateDevices({
