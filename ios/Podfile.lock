@@ -273,6 +273,10 @@ PODS:
   - react-native-ble-plx (2.0.0):
     - MultiplatformBleAdapter (= 0.1.5)
     - React
+  - react-native-geolocation (2.0.2):
+    - React
+  - react-native-maps (0.27.1):
+    - React
   - react-native-safe-area-context (3.0.7):
     - React
   - React-RCTActionSheet (0.62.2):
@@ -415,6 +419,8 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-ble-manager (from `../node_modules/react-native-ble-manager`)
   - react-native-ble-plx (from `../node_modules/react-native-ble-plx`)
+  - "react-native-geolocation (from `../node_modules/@react-native-community/geolocation`)"
+  - react-native-maps (from `../node_modules/react-native-maps`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
@@ -520,6 +526,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-ble-manager"
   react-native-ble-plx:
     :path: "../node_modules/react-native-ble-plx"
+  react-native-geolocation:
+    :path: "../node_modules/@react-native-community/geolocation"
+  react-native-maps:
+    :path: "../node_modules/react-native-maps"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   React-RCTActionSheet:
@@ -622,6 +632,8 @@ SPEC CHECKSUMS:
   React-jsinspector: 512e560d0e985d0e8c479a54a4e5c147a9c83493
   react-native-ble-manager: 30803381a43a806eb5e871f4d0d4681280015c63
   react-native-ble-plx: 21acd4201f9de46ab690b24898e8d3ad02f518fd
+  react-native-geolocation: c956aeb136625c23e0dce0467664af2c437888c9
+  react-native-maps: f4b89da81626ad7f151a8bfcb79733295d31ce5c
   react-native-safe-area-context: ef6f16c66b0797ecae1bf86c103dfb3dc16fc33d
   React-RCTActionSheet: f41ea8a811aac770e0cc6e0ad6b270c644ea8b7c
   React-RCTAnimation: 49ab98b1c1ff4445148b72a3d61554138565bad0
@@ -654,6 +666,6 @@ SPEC CHECKSUMS:
   Yoga: 3ebccbdd559724312790e7742142d062476b698e
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 3f47ed24885b6e064af321c2269cd143438b26fd
+PODFILE CHECKSUM: f1c88ff3a178cd951733926d56535ed103fb7cc4
 
 COCOAPODS: 1.8.3

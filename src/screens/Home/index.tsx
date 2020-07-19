@@ -1,17 +1,23 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
   Button,
   StyleSheet,
-  ActivityIndicator
+  ActivityIndicator,
+  StatusBar,
+  Dimensions,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 //import { BLEContext } from '../../contexts/BLEPlx';
 import { BLEContext } from '../../contexts/BLE';
-import Pie from 'react-native-pie';
+import MapView, { Marker } from 'react-native-maps';
+import Geolocation from '@react-native-community/geolocation';
 
-
+const { width, height } = Dimensions.get('window');
+const ASPECT_RATIO = width / height;
+const LATITUDE_DELTA = 0.01;
+const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 export const HomeScreen = () => {
   const {
@@ -20,9 +26,18 @@ export const HomeScreen = () => {
     stopScan,
     isScanning,
   } = BLEContext.useContainer();
+  const [position, setPosition] = useState({});
 
   useEffect(() => {
     startScan();
+    Geolocation.getCurrentPosition(
+      _position => {
+        setPosition(_position);
+        console.log('_position', _position);
+      },
+      err => alert(err.message),
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 10000 },
+    );
   }, []);
 
   const fd6fDevices = devices.filter(d => d?.isFDF6);
@@ -39,52 +54,38 @@ export const HomeScreen = () => {
       : [];
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <View style={{
-        width: 320,
-        alignItems: 'center',
-        paddingTop: 100,
-        paddingBottom: 100
-      }}>
-        <Pie
-          radius={180}
-          innerRadius={140}
-          sections={sections}
-          backgroundColor="#ddd"
-        />
-        <View
-          style={styles.gauge}
-        >
-          <Text
-            style={styles.gaugeText}
+    <SafeAreaView
+      style={{
+        flex: 1,
+      }}
+    >
+      <StatusBar translucent backgroundColor="red" />
+      {
+        position?.coords?.latitude && (
+          <MapView
+            initialRegion={{
+              latitude: position?.coords?.latitude,
+              longitude: position?.coords?.longitude,
+              latitudeDelta: LATITUDE_DELTA,
+              longitudeDelta: LONGITUDE_DELTA,
+            }}
+            style={{
+              flex: 1
+            }}
           >
-            {percentage}%
-          </Text>
-          <Text
-            style={styles.gaugeTextTotal}
-          >
-            {fd6fDevices.length} / {devices.length}
-          </Text>
-          {
-            isScanning
-              ? <View style={{ flexDirection: 'row', marginTop: 10 }}>
-                <ActivityIndicator style={{ marginRight: 5 }} />
-                <Text style={styles.gaugeTextScanning}>スキャン中...</Text>
-              </View>
-              : <View style={{ marginTop: 10 }}>
-                <Text style={styles.gaugeTextScanning}>スキャン停止中</Text>
-              </View>
-          }
-        </View>
-      </View>
-      <Button
-        title='スキャン開始'
-        onPress={() => startScan()}
-      />
-      <Button
-        title='スキャン停止'
-        onPress={() => stopScan()}
-      />
+            <Marker
+              coordinate={{
+                latitude: position?.coords?.latitude,
+                longitude: position?.coords?.longitude,
+              }}
+              title='title'
+              description={devices.length.toString()}
+              isPreselected={true}
+            />
+            </MapView>
+
+        )
+      }
     </SafeAreaView>
   );
 }

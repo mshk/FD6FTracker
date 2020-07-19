@@ -46,6 +46,7 @@ def flipper_post_install(installer)
 end
 
 target 'FD6FTracker' do
+  rn_maps_path = '../node_modules/react-native-maps'
   # Pods for FD6FTracker
   pod 'FBLazyVector', :path => "../node_modules/react-native/Libraries/FBLazyVector"
   pod 'FBReactNativeSpec', :path => "../node_modules/react-native/Libraries/FBReactNativeSpec"
@@ -88,7 +89,16 @@ target 'FD6FTracker' do
   add_flipper_pods!
   pod 'react-native-ble-plx', :path => '../node_modules/react-native-ble-plx'
 
+  pod 'react-native-maps', path: rn_maps_path
+
   post_install do |installer|
     flipper_post_install(installer)
+    installer.pods_project.targets.each do |target|
+      if target.name == 'react-native-google-maps'
+        target.build_configurations.each do |config|
+          config.build_settings['CLANG_ENABLE_MODULES'] = 'No'
+        end
+      end
+    end
   end
 end

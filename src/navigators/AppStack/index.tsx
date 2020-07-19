@@ -9,9 +9,7 @@ export const AppStackNavigator = () => {
   return (
     <AppStack.Navigator
       screenOptions={{
-        headerStyle: {
-          backgroundColor: 'white'  
-        }
+        headerShown: false
       }}
     >
       <AppStack.Screen

@@ -36,7 +36,7 @@ const useBLE = () => {
   const onDiscoverPeripheral = (args) => {
     const uuids = args?.advertising?.serviceUUIDs;
     let isFDF6 = false;
-    
+
     if (uuids) {
       isFDF6 = uuids.includes(UUID_FDF6) || uuids.includes(UUID_FDF6_16BIT);
       if (isFDF6) {
@@ -66,14 +66,22 @@ const useBLE = () => {
     setDevices({});
     return BleManager
       .scan([], SCAN_SECONDS, false, {})
-      .then(() => setIsScanning(true));
-  }
+      .then(() => {
+        console.log('startScan()');
+        setIsScanning(true);
+      });
+   }
 
   const stopScan = () => {
     return BleManager
       .stopScan()
-      .then(() => setIsScanning(false));
-  }
+      .then(() => {
+        console.log('stopScan()');
+        setIsScanning(false);
+      });
+   };
+
+
 
   return {
     isScanning,
