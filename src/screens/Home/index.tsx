@@ -1,18 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
   View,
   Text,
-  Button,
   StyleSheet,
-  ActivityIndicator,
-  StatusBar,
+  Button,
   Dimensions,
+  ActivityIndicator,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 //import { BLEContext } from '../../contexts/BLEPlx';
 import { BLEContext } from '../../contexts/BLE';
-import MapView, { Marker } from 'react-native-maps';
+import MapView, { Marker, Circle } from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
+import BottomSheet from 'reanimated-bottom-sheet';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
@@ -53,67 +54,147 @@ export const HomeScreen = () => {
       }]
       : [];
 
-  return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-      }}
-    >
-      <StatusBar translucent backgroundColor="red" />
+  const bottomSheetRef = useRef();
+
+  const renderHeader = () => (
+    <View style={styles.header}>
+      <View style={styles.panelHeader}>
+        <View style={styles.panelHandle}>
+        </View>
+      </View>
+    </View>
+  )
+
+  const renderContent = () => {
+    return <View style={styles.panel}>
+      <Text style={styles.panelTitle}>接触確認アプリ {fd6fDevices.length}</Text>
+      <Text style={styles.panelSubtitle}>BLEデバイス {devices.length}</Text>
       {
-        position?.coords?.latitude && (
-          <MapView
-            initialRegion={{
-              latitude: position?.coords?.latitude,
-              longitude: position?.coords?.longitude,
-              latitudeDelta: LATITUDE_DELTA,
-              longitudeDelta: LONGITUDE_DELTA,
-            }}
-            style={{
-              flex: 1
-            }}
-          >
-            <Marker
-              coordinate={{
+        isScanning
+          ?
+          (
+            <View style={{ flexDirection: 'row' }} >
+              <ActivityIndicator />
+              <Button
+                title='スキャン停止'
+                onPress={stopScan}
+              />
+            </View>
+          )
+          :
+          (
+            <Button
+              title='スキャン開始'
+              onPress={startScan}
+            />
+          )
+      }
+    </View>
+  };
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <>
+        {
+          position?.coords?.latitude && (
+            <MapView
+              initialRegion={{
                 latitude: position?.coords?.latitude,
                 longitude: position?.coords?.longitude,
+                latitudeDelta: LATITUDE_DELTA,
+                longitudeDelta: LONGITUDE_DELTA,
               }}
-              title='title'
-              description={devices.length.toString()}
-              isPreselected={true}
-            />
+              style={{
+                flex: 1
+              }}
+            >
+              <Circle
+                center={{
+                  latitude: position?.coords?.latitude,
+                  longitude: position?.coords?.longitude,
+                }}
+                radius={40}
+                strokeColor='red'
+                strokeWidth={5}
+                fillColor='rgba(255, 220, 220, 0.8)'
+                isPreselected={true}
+              />
             </MapView>
+          )
 
-        )
-      }
+        }
+        <BottomSheet
+          snapPoints={[150]}
+          renderContent={renderContent}
+          renderHeader={renderHeader}
+          initialSnap={0}
+          ref={bottomSheetRef}
+        />
+        <View style={styles.spacer} />
+      </>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { alignItems: 'center', justifyContent: 'center', height: 1050 },
-  gauge: {
-    marginTop: 100,
-    position: 'absolute',
-    width: 360,
-    height: 360,
+  container: {
+    flex: 1,
+    padding: 0,
+    margin: 0
+  },
+  map: {
+    width: '100%',
+    height: '100%',
     alignItems: 'center',
-    justifyContent: 'center',
+    ...StyleSheet.absoluteFillObject
   },
-  gaugeText: {
-    backgroundColor: 'transparent',
-    color: '#000',
-    fontSize: 42,
-    fontWeight: 'bold'
+  spacer: {
+    backgroundColor: '#f5f5f5',
+    height: 20,
   },
-  gaugeTextTotal: {
-    backgroundColor: 'transparent',
-    color: '#555',
-    fontSize: 20,
+  panel: {
+    backgroundColor: '#f5f5f5',
+    alignItems: 'center',
+    height: 200,
   },
-  gaugeTextScanning: {
-    backgroundColor: 'transparent',
-    color: '#555',
-    fontSize: 15,
+  header: {
+    backgroundColor: '#f5f5f5',
+    shadowColor: '#000000',
+    paddingTop: 20,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
+  panelHeader: {
+    alignItems: 'center',
+    marginBottom: 10
+  },
+  panelHandle: {
+    width: 40,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: '#00000040',
+    marginBottom: 10,
+  },
+  panelTitle: {
+    fontSize: 27,
+    height: 35,
+  },
+  panelSubtitle: {
+    fontSize: 14,
+    color: 'gray',
+    height: 30,
+    marginBottom: 10,
+  },
+  panelButton: {
+    padding: 20,
+    borderRadius: 10,
+    backgroundColor: '#318bfb',
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  panelButtonTitle: {
+    fontSize: 17,
+    fontWeight: 'bold',
+    color: 'white',
   },
 });
